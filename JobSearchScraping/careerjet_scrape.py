@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 # TODO
 # Write data to CSV
 # Finalize keywords / skip words
-# Add no. jobs scraped counter
 
 headers = {
     'Access-Control-Allow-Origin': '*',
