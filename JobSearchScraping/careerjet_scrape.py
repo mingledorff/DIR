@@ -18,9 +18,13 @@ headers = {
 }
 
 start_page = 1
-num_pages = 5
-word_frequencies = dict() #Counter()
-keyword_frequencies = dict() #Counter()
+num_pages = 1
+
+jobs_scraped = dict()
+word_frequencies = dict()
+keyword_frequencies = dict()
+
+total_jobs_scraped = 0
 total_word_frequencies = Counter()
 total_keyword_frequencies = Counter()
 
@@ -40,6 +44,7 @@ keywords = ['.net', 'c#', 'sql', 'c++', 'java', 'c', 'python', 'nodejs', 'node.j
 
 for location in locations:
 
+    jobs_scraped[location] = 0
     word_frequencies[location] = Counter()
     keyword_frequencies[location] = Counter()
 
@@ -92,17 +97,25 @@ for location in locations:
                 if word not in skip_words:
                     word_frequencies[location][word] += 1
 
+            jobs_scraped[location] += 1
+
 for location in locations:
     top_words = word_frequencies[location].most_common(100)
+
+    print('\n' + location.upper() + '\n# jobs scraped: ' + str(jobs_scraped[location]))
     print('\n' + location + ' Top Words: ')
     print(top_words)
     print('\n' + location + ' Keywords: ')
     print(keyword_frequencies[location])
+    print('\n')
 
+    total_jobs_scraped += jobs_scraped[location]
     total_word_frequencies += word_frequencies[location]
     total_keyword_frequencies += keyword_frequencies[location]
 
 top_words = total_word_frequencies.most_common(100)
+
+print('\nTOTAL # JOBS SCRAPED: ' + str(total_jobs_scraped))
 print('\nTOP WORDS: ')
 print(top_words)
 print('\nTOP KEYWORDS: ')
