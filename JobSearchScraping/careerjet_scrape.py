@@ -1,4 +1,4 @@
-import itertools
+import csv
 import requests
 import re
 from collections import Counter
@@ -17,7 +17,7 @@ headers = {
 }
 
 start_page = 1
-num_pages = 1
+num_pages = 3
 
 jobs_scraped = dict()
 word_frequencies = dict()
@@ -113,9 +113,41 @@ for location in locations:
     total_keyword_frequencies += keyword_frequencies[location]
 
 top_words = total_word_frequencies.most_common(100)
+top_keywords = total_keyword_frequencies.most_common()
 
 print('\nTOTAL # JOBS SCRAPED: ' + str(total_jobs_scraped))
 print('\nTOP WORDS: ')
 print(top_words)
 print('\nTOP KEYWORDS: ')
 print(total_keyword_frequencies)
+
+with open('data/data.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile)
+
+    fieldnames = ['TOP 100 WORDS OVERALL', 'COUNT']
+    writer.writerow(fieldnames)
+    for key, value in top_words:
+        writer.writerow([key] + [value])
+
+    fieldnames = ['TOP KEYWORDS OVERALL', 'COUNT']
+    writer.writerow([''])
+    writer.writerow(fieldnames)
+    for key, value in top_keywords:
+        writer.writerow([key] + [value])
+
+    for location in locations:
+
+        top_words = word_frequencies[location].most_common(50)
+        top_keywords = keyword_frequencies[location].most_common()
+
+        fieldnames = [location.upper() + ' TOP 50 WORDS', 'COUNT']
+        writer.writerow([''])
+        writer.writerow(fieldnames)
+        for key, value in top_words:
+            writer.writerow([key] + [value])
+
+        fieldnames = [location.upper() + ' TOP KEYWORDS', 'COUNT']
+        writer.writerow([''])
+        writer.writerow(fieldnames)
+        for key, value in top_keywords:
+            writer.writerow([key] + [value])
