@@ -17,7 +17,7 @@ headers = {
 }
 
 start_page = 1
-num_pages = 3
+num_pages = 1
 
 jobs_scraped = dict()
 word_frequencies = dict()
@@ -130,7 +130,7 @@ with open('data/data.csv', 'w', newline='') as csvfile:
         writer.writerow([key] + [value])
 
     fieldnames = ['TOP KEYWORDS OVERALL', 'COUNT']
-    writer.writerow([''])
+    writer.writerow(['', ''])
     writer.writerow(fieldnames)
     for key, value in top_keywords:
         writer.writerow([key] + [value])
@@ -141,13 +141,13 @@ with open('data/data.csv', 'w', newline='') as csvfile:
         top_keywords = keyword_frequencies[location].most_common()
 
         fieldnames = [location.upper() + ' TOP 50 WORDS', 'COUNT']
-        writer.writerow([''])
+        writer.writerow(['', ''])
         writer.writerow(fieldnames)
         for key, value in top_words:
             writer.writerow([key] + [value])
 
         fieldnames = [location.upper() + ' TOP KEYWORDS', 'COUNT']
-        writer.writerow([''])
+        writer.writerow(['', ''])
         writer.writerow(fieldnames)
         for key, value in top_keywords:
             writer.writerow([key] + [value])
