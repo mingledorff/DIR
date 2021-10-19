@@ -5,7 +5,6 @@ from collections import Counter
 from bs4 import BeautifulSoup
 
 # TODO
-# Write data to CSV
 # Finalize keywords / skip words
 
 headers = {
@@ -121,33 +120,40 @@ print(top_words)
 print('\nTOP KEYWORDS: ')
 print(total_keyword_frequencies)
 
-with open('data/data.csv', 'w', newline='') as csvfile:
+with open('data/total.csv', 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
 
-    fieldnames = ['TOP 100 WORDS OVERALL', 'COUNT']
+    fieldnames = ['TOP 100 WORDS OVERALL (' + str(total_jobs_scraped) + ' JOBS)', 'COUNT']
     writer.writerow(fieldnames)
     for key, value in top_words:
         writer.writerow([key] + [value])
 
-    fieldnames = ['TOP KEYWORDS OVERALL', 'COUNT']
-    writer.writerow(['', ''])
+with open('data/total_keywords.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile)
+
+    fieldnames = ['TOP KEYWORDS OVERALL (' + str(total_jobs_scraped) + ' JOBS)', 'COUNT']
     writer.writerow(fieldnames)
     for key, value in top_keywords:
         writer.writerow([key] + [value])
 
-    for location in locations:
+for location in locations:
+
+    with open('data/' + location.replace(" ", "") + '.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
 
         top_words = word_frequencies[location].most_common(50)
-        top_keywords = keyword_frequencies[location].most_common()
 
-        fieldnames = [location.upper() + ' TOP 50 WORDS', 'COUNT']
-        writer.writerow(['', ''])
+        fieldnames = [location.upper() + ' TOP 50 WORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
         writer.writerow(fieldnames)
         for key, value in top_words:
             writer.writerow([key] + [value])
 
-        fieldnames = [location.upper() + ' TOP KEYWORDS', 'COUNT']
-        writer.writerow(['', ''])
+    with open('data/' + location.replace(" ", "") + '_keywords.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+
+        top_keywords = keyword_frequencies[location].most_common()
+
+        fieldnames = [location.upper() + ' TOP KEYWORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
         writer.writerow(fieldnames)
         for key, value in top_keywords:
             writer.writerow([key] + [value])
