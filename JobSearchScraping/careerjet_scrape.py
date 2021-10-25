@@ -16,7 +16,7 @@ headers = {
 }
 
 start_page = 1
-num_pages = 1
+num_pages = 100
 
 jobs_scraped = dict()
 word_frequencies = dict()
@@ -27,11 +27,33 @@ total_word_frequencies = Counter()
 total_keyword_frequencies = Counter()
 
 #locations = ['USA']
-locations = ['Nashville', 'Los Angeles', 'San Francisco']
+#locations = ['Nashville', 'Los Angeles', 'San Francisco']
+locations = [
+    'New York City',
+    'Los Angeles',
+    'Chicago',
+    'Houston',
+    'Phoenix',
+    'Philadelphia',
+    'San Antonio',
+    'San Diego',
+    'Dallas',
+    'Austin',
+    'San Jose',
+    'Jacksonville',
+    'Columbus',
+    'Charlotte',
+    'Indianapolis',
+    'Seattle',
+    'Denver',
+    'Boston',
+    'Nashville'
+    'Oklahoma City'
+]
 
 skip_words = ['and', 'to', 'the', 'of', 'in', 'with', 'a', 'for', 'on', 'or', 'is', 'as', 'be', '', 'we', 'an', 'you',
             'are', 'our', 'will', 'that', 'have', 'from', 'this', 'at', 'all', 'this', 'you', 'are', '/', 'your', 'not',
-            'who', 'it', '2', 'any', 'well', 'by', 'do', 'if', 'can', 'what', 'has', '-', 'their', 'us']
+            'who', 'it', '2', 'any', 'well', 'by', 'do', 'if', 'can', 'what', 'has', '-', 'their', 'us', 'so']
 
 keywords = ['.net', 'c#', 'sql', 'c++', 'java', 'c', 'python', 'nodejs', 'node.js', 'css', 'css3', 'html', 'html5', 
             'javascript', 'jquery', 'php', 'r', 'ruby', 'rust', 'vhdl', 'verilog', 'typescript' 'perl', 'assembly',
@@ -97,7 +119,6 @@ for location in locations:
 
             jobs_scraped[location] += 1
 
-for location in locations:
     top_words = word_frequencies[location].most_common(100)
 
     print('\n' + location.upper() + '\n# jobs scraped: ' + str(jobs_scraped[location]))
@@ -110,6 +131,40 @@ for location in locations:
     total_jobs_scraped += jobs_scraped[location]
     total_word_frequencies += word_frequencies[location]
     total_keyword_frequencies += keyword_frequencies[location]
+
+    with open('data/' + location.replace(" ", "") + '.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+
+        top_words = word_frequencies[location].most_common(50)
+
+        fieldnames = [location.upper() + ' TOP 50 WORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
+        writer.writerow(fieldnames)
+        for key, value in top_words:
+            writer.writerow([key] + [value])
+
+    with open('data/' + location.replace(" ", "") + '_keywords.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+
+        top_keywords = keyword_frequencies[location].most_common()
+
+        fieldnames = [location.upper() + ' TOP KEYWORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
+        writer.writerow(fieldnames)
+        for key, value in top_keywords:
+            writer.writerow([key] + [value])
+
+# for location in locations:
+#     top_words = word_frequencies[location].most_common(100)
+
+#     print('\n' + location.upper() + '\n# jobs scraped: ' + str(jobs_scraped[location]))
+#     print('\n' + location + ' Top Words: ')
+#     print(top_words)
+#     print('\n' + location + ' Keywords: ')
+#     print(keyword_frequencies[location])
+#     print('\n')
+
+#     total_jobs_scraped += jobs_scraped[location]
+#     total_word_frequencies += word_frequencies[location]
+#     total_keyword_frequencies += keyword_frequencies[location]
 
 top_words = total_word_frequencies.most_common(100)
 top_keywords = total_keyword_frequencies.most_common()
@@ -136,24 +191,24 @@ with open('data/total_keywords.csv', 'w', newline='') as csvfile:
     for key, value in top_keywords:
         writer.writerow([key] + [value])
 
-for location in locations:
+#for location in locations:
 
-    with open('data/' + location.replace(" ", "") + '.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
+    # with open('data/' + location.replace(" ", "") + '.csv', 'w', newline='') as csvfile:
+    #     writer = csv.writer(csvfile)
 
-        top_words = word_frequencies[location].most_common(50)
+    #     top_words = word_frequencies[location].most_common(50)
 
-        fieldnames = [location.upper() + ' TOP 50 WORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
-        writer.writerow(fieldnames)
-        for key, value in top_words:
-            writer.writerow([key] + [value])
+    #     fieldnames = [location.upper() + ' TOP 50 WORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
+    #     writer.writerow(fieldnames)
+    #     for key, value in top_words:
+    #         writer.writerow([key] + [value])
 
-    with open('data/' + location.replace(" ", "") + '_keywords.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
+    # with open('data/' + location.replace(" ", "") + '_keywords.csv', 'w', newline='') as csvfile:
+    #     writer = csv.writer(csvfile)
 
-        top_keywords = keyword_frequencies[location].most_common()
+    #     top_keywords = keyword_frequencies[location].most_common()
 
-        fieldnames = [location.upper() + ' TOP KEYWORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
-        writer.writerow(fieldnames)
-        for key, value in top_keywords:
-            writer.writerow([key] + [value])
+    #     fieldnames = [location.upper() + ' TOP KEYWORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
+    #     writer.writerow(fieldnames)
+    #     for key, value in top_keywords:
+    #         writer.writerow([key] + [value])
