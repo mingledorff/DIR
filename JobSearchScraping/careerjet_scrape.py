@@ -26,9 +26,12 @@ total_jobs_scraped = 0
 total_word_frequencies = Counter()
 total_keyword_frequencies = Counter()
 
-#locations = ['USA']
-locations = ['Nashville', 'Oklahoma City']
-# locations = [
+locations = [
+    'Denver',
+    'Boston',
+    'Oklahoma City'
+]
+#locations = [
 #     'New York City',
 #     'Los Angeles',
 #     'Chicago',
@@ -114,12 +117,12 @@ for location in locations:
                 if word in keywords:
                     keyword_frequencies[location][word] += 1
                 
-                if word not in skip_words:
+                if word not in skip_words and len(word) > 2:
                     word_frequencies[location][word] += 1
 
             jobs_scraped[location] += 1
 
-    top_words = word_frequencies[location].most_common(100)
+    top_words = word_frequencies[location].most_common(250)
 
     print('\n' + location.upper() + '\n# jobs scraped: ' + str(jobs_scraped[location]))
     print('\n' + location + ' Top Words: ')
@@ -135,9 +138,9 @@ for location in locations:
     with open('data/' + location.replace(" ", "") + '.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
 
-        top_words = word_frequencies[location].most_common(100)
+        top_words = word_frequencies[location].most_common(250)
 
-        fieldnames = [location.upper() + ' TOP 100 WORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
+        fieldnames = [location.upper() + ' TOP 250 WORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
         writer.writerow(fieldnames)
         for key, value in top_words:
             writer.writerow([key] + [value])
