@@ -1,7 +1,0 @@
-szatanjl <szatan@gecc.xyz>;1513435245;0053ebcd92c9aa60e9dc41d0351500c23d59e7f2;c
-gimantha <gimantha@wso2.com>;1532990896;8094e8f3eba37db12b25ccdb6544d4d666786a49;javascript
-Gunnar Magnusson <gunnar.magnusson@booking.com>;1523710385;00000f9c71cb00931bf16fad1ab2d594963b06d5;R
-Adam Wentz <adam.wentz@dollarshaveclub.com>;1483312118;80011120138be78a80fda20863a6361135e94405;python
-Oleg Grenrus <oleg.grenrus@iki.fi>;1382310300;80a1abc71a09195c47cce9057f7e213c2a3f5068;java
-Adam Wentz <adam@adamwentz.com>;1435385057;809a49860b1ec607aef0bff20803ec87ee09f63f;rust
-Igor de Alcantara Barroso <idabmat@gmail.com>;1508706523;008091e149bc444cf8736b5302249a9020f13871;c
