@@ -1,0 +1,9 @@
+USERNAME:
+
+    Hello, we are computer science students at the University of Tennessee. We're collecting data
+    regarding the first language developers learn. Data we've collected via worldofcode suggests 
+    that your first language was LANGUAGE. If this is correct we would appreciate it if you'd 
+    reply with 'yes' to this email. If not, please reply 'no'. Thank you for participating!
+    (Or just reading :-)) 
+
+Regards
