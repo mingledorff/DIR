@@ -27,9 +27,16 @@ total_word_frequencies = Counter()
 total_keyword_frequencies = Counter()
 
 locations = [
-    'Denver',
-    'Boston',
-    'Oklahoma City'
+    'Fort Worth',
+    'San Francisco',
+    'Washington DC',
+    'El Paso',
+    'Las Vegas',
+    'Detroit',
+    'Portland',
+    'Memphis',
+    'Louisville',
+    'Milwaukee'
 ]
 #locations = [
 #     'New York City',
