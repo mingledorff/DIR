@@ -27,6 +27,26 @@ total_word_frequencies = Counter()
 total_keyword_frequencies = Counter()
 
 locations = [
+    'New York City',
+    'Los Angeles',
+    'Chicago',
+    'Houston',
+    'Phoenix',
+    'Philadelphia',
+    'San Antonio',
+    'San Diego',
+    'Dallas',
+    'Austin',
+    'San Jose',
+    'Jacksonville',
+    'Columbus',
+    'Charlotte',
+    'Indianapolis',
+    'Seattle',
+    'Denver',
+    'Boston',
+    'Nashville',
+    'Oklahoma City',
     'Fort Worth',
     'San Francisco',
     'Washington DC',
@@ -38,32 +58,10 @@ locations = [
     'Louisville',
     'Milwaukee'
 ]
-#locations = [
-#     'New York City',
-#     'Los Angeles',
-#     'Chicago',
-#     'Houston',
-#     'Phoenix',
-#     'Philadelphia',
-#     'San Antonio',
-#     'San Diego',
-#     'Dallas',
-#     'Austin',
-#     'San Jose',
-#     'Jacksonville',
-#     'Columbus',
-#     'Charlotte',
-#     'Indianapolis',
-#     'Seattle',
-#     'Denver',
-#     'Boston',
-#     'Nashville',
-#     'Oklahoma City'
-# ]
 
 skip_words = ['and', 'to', 'the', 'of', 'in', 'with', 'a', 'for', 'on', 'or', 'is', 'as', 'be', '', 'we', 'an', 'you',
             'are', 'our', 'will', 'that', 'have', 'from', 'this', 'at', 'all', 'this', 'you', 'are', '/', 'your', 'not',
-            'who', 'it', '2', 'any', 'well', 'by', 'do', 'if', 'can', 'what', 'has', '-', 'their', 'us', 'so']
+            'who', 'it', '2', 'any', 'well', 'by', 'do', 'if', 'can', 'what', 'has', '-', 'their', 'us', 'so', '\u0101']
 
 keywords = ['.net', 'c#', 'sql', 'c++', 'java', 'c', 'python', 'nodejs', 'node.js', 'css', 'css3', 'html', 'html5', 
             'javascript', 'jquery', 'php', 'r', 'ruby', 'rust', 'vhdl', 'verilog', 'typescript' 'perl', 'assembly',
@@ -103,6 +101,9 @@ for location in locations:
             req = requests.get(job_url, headers=headers)
             job_soup = BeautifulSoup(req.content, 'html.parser')
 
+            if job_soup is None:
+                continue
+
             job_soup = job_soup.find('section', class_='content').text
 
             # Remove punctuation from text except periods (we want to keep those in node.js or .net for example)
@@ -125,7 +126,8 @@ for location in locations:
                     keyword_frequencies[location][word] += 1
                 
                 if word not in skip_words and len(word) > 2:
-                    word_frequencies[location][word] += 1
+                    if '\u0101' not in word:
+                        word_frequencies[location][word] += 1
 
             jobs_scraped[location] += 1
 
@@ -142,17 +144,17 @@ for location in locations:
     total_word_frequencies += word_frequencies[location]
     total_keyword_frequencies += keyword_frequencies[location]
 
-    with open('data/' + location.replace(" ", "") + '.csv', 'w', newline='') as csvfile:
+    with open('data/states/' + location.replace(" ", "") + '.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
 
-        top_words = word_frequencies[location].most_common(250)
+        top_words = word_frequencies[location].most_common(500)
 
-        fieldnames = [location.upper() + ' TOP 250 WORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
+        fieldnames = [location.upper() + ' TOP 500 WORDS (' + str(jobs_scraped[location]) + ' JOBS)', 'COUNT']
         writer.writerow(fieldnames)
         for key, value in top_words:
             writer.writerow([key] + [value])
 
-    with open('data/' + location.replace(" ", "") + '_keywords.csv', 'w', newline='') as csvfile:
+    with open('data/states/' + location.replace(" ", "") + '_keywords.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
 
         top_keywords = keyword_frequencies[location].most_common()

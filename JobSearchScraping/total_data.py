@@ -6,11 +6,11 @@ total_words = Counter()
 total_keywords = Counter()
 total_jobs = 0
 
-for file in os.listdir('data'):
+for file in os.listdir('data/states/'):
     if file.endswith(".csv") and "total" not in file:
         print(file)
 
-        with open('data/' + file, mode='r') as csvfile:
+        with open('data/states/' + file, mode='r') as csvfile:
             reader = csv.reader(csvfile)
             row = next(reader)
 
@@ -32,7 +32,7 @@ for file in os.listdir('data'):
 top_words = total_words.most_common()
 top_keywords = total_keywords.most_common()
 
-with open('data/total.csv', mode='w', newline='') as csvfile:
+with open('data/total_states.csv', mode='w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     
     fieldnames = ['TOP WORDS OVERALL (' + str(total_jobs) + ' JOBS)', 'COUNT']
@@ -40,7 +40,7 @@ with open('data/total.csv', mode='w', newline='') as csvfile:
     for key, value in top_words:
         writer.writerow([key] + [value])
 
-with open('data/total_keywords.csv', mode='w', newline='') as csvfile:
+with open('data/total_keywords_states.csv', mode='w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     
     fieldnames = ['TOP KEYWORDS OVERALL (' + str(total_jobs) + ' JOBS)', 'COUNT']
